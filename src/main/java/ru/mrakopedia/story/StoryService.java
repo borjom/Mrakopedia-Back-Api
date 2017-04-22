@@ -22,7 +22,7 @@ public class StoryService {
     }
 
     public Story getStory(Long id) {
-        return storyRepository.getOne(id);
+        return storyRepository.findOne(id);
     }
 
     public void addStory(String title) {

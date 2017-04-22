@@ -28,7 +28,7 @@ public class StoryController {
         return storyService.getStories();
     }
 
-    @RequestMapping(value = "/add")
+    @RequestMapping(value = "/addStory")
     public void addStory(@RequestParam String title) {
         storyService.addStory(title);
     }
