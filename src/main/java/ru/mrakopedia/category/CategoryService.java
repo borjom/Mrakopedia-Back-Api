@@ -1,7 +1,9 @@
 package ru.mrakopedia.category;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.mrakopedia.web.ResponseView;
 
 import java.util.List;
 
@@ -13,19 +15,32 @@ import java.util.List;
 public class CategoryService {
 
     @Autowired
-    CategoryRepository categoryRepository;
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    public List<Category> getCategories() {
-        return categoryRepository.findAll();
+    public String getCategories() {
+        String response = null;
+
+        try {
+            List<Category> categories = categoryRepository.findAll();
+            response = objectMapper.writerWithView(ResponseView.CategoryView.class).writeValueAsString(categories);
+
+        } catch (Exception e) {
+        }
+
+        return response;
     }
 
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findOne(id);
-    }
+    public String getCategoryById(Long id) {
+        String response = null;
 
-    public void addCategory(String title) {
-        Category category = new Category();
-        category.setTitle(title);
-        categoryRepository.save(category);
+        try {
+            Category category = categoryRepository.findOne(id);
+            response = objectMapper.writerWithView(ResponseView.CategoryView.class).writeValueAsString(category);
+        } catch (Exception e) {
+        }
+
+        return response;
     }
 }
